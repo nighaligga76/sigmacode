@@ -1,4 +1,4 @@
-accept_key =keyboard_check_pressed(vk_space);
+accept_key = keyboard_check_pressed(vk_space);
 
 textbox_x = camera_get_view_x(view_camera[0]);
 textbox_y = camera_get_view_y(view_camera[0]) + 126;
@@ -9,7 +9,7 @@ if set_up == false{
     set_up = true;
     draw_set_font(Font1);
     draw_set_valign(fa_top);
-    draw_set_valign(fa_left);
+    draw_set_halign(fa_left);
     
 
    // loop to pages
@@ -22,8 +22,21 @@ for (var p = 0; p < page_number; p++)
     
     
     //get the x position for the textbox
+    //charac on da lef
+    text_x_offset[p] = 86;
+    portrait_x_offset[p] = 8;
+    
+    //charac on da right
+    if speaker_side[p] == -1 {
+     text_x_offset[p] = 8;
+        portrait_x_offset = 216;   
+    }
+    
      // if no character [center the textbox]
+    if speaker_sprite[p] == noone {
     text_x_offset[p] = 44;
+        
+    }
     
     //setting indiv chars and finding where the lines should break
     for (var c = 0; c < text_length[p]; c++)
@@ -40,7 +53,7 @@ for (var p = 0; p < page_number; p++)
         
         
         //get last free space      
-        if char[c,p] = " " { last_free_space = _char_pos+1 } ;
+        if char[c,p] == " " { last_free_space = _char_pos+1 } ;
             
         //get line breaks
         if _current_text_w - line_break_offset[p] > line_width
@@ -73,7 +86,7 @@ for (var p = 0; p < page_number; p++)
         
         //compensate for line breaks
         
-        for (var lb = 0; lb < line_break_num[0]; lb++)
+        for (var lb = 0; lb < line_break_num[p]; lb++)
         {
             //if the cureent looping char is after a line break
             if _char_pos >= line_break_pos[lb, p]
@@ -142,11 +155,24 @@ if accept_key
 var _textb_x = textbox_x + text_x_offset[page];
 var _textb_y = textbox_y;
 textb_image += textb_image_speed;
-textb_spr_w = sprite_get_width(textb_spr);
-textb_spr_h = sprite_get_height(textb_spr);
+textb_spr_w = sprite_get_width(textb_spr[page]);
+textb_spr_h = sprite_get_height(textb_spr[page]);
+//draw speaker
+if speaker_sprite[page] != noone{
+    
+    sprite_index = speaker_sprite[page];
+    var _speaker_x = textbox_x + portrait_x_offset[page];
+    if speaker_side[page] == -1  {_speaker_x += sprite_width};
+        //draw the speaker
+    draw_sprite_ext(textb_spr[page], textb_image, textbox_x + portrait_x_offset[page], textbox_y, sprite_width/textb_spr_w, sprite_height/textb_spr_h, 0, c_white, 1); 
+        draw_sprite_ext(sprite_index, image_index, _speaker_x, textbox_y, speaker_side[page], 1, 0, c_white, 1);
+    
+        }
+
+
 //back of textbox
 
-draw_sprite_ext(textb_spr, textb_image, textbox_x + text_x_offset[page], textbox_y, textbox_width/textb_spr_w, textbox_height/textb_spr_h, 0, c_white, 1);
+draw_sprite_ext(textb_spr[page], textb_image, textbox_x + text_x_offset[page], textbox_y, textbox_width/textb_spr_w, textbox_height/textb_spr_h, 0, c_white, 1);
 
 
 // OPTIONS
@@ -163,7 +189,7 @@ if draw_char == text_length[page] && page == page_number -1 {
     for (var op = 0; op < option_number; op++){
         //option boxx
         var _o_w = string_width(option[op]) + _op_border*2;
-        draw_sprite_ext(textb_spr, textb_image, _textb_x + 16, _textb_y - _op_space*option_number + _op_space*op, _o_w/textb_spr_w, (_op_space-1)/textb_spr_h, 0, c_white, 1);
+        draw_sprite_ext(textb_spr[page], textb_image, _textb_x + 18, _textb_y - _op_space*option_number + _op_space*op, _o_w/textb_spr_w, (_op_space-1)/textb_spr_h, 0, c_white, 1);
 
         //arrow
         if option_pos == op{
@@ -173,14 +199,14 @@ if draw_char == text_length[page] && page == page_number -1 {
         
         
         //option text
-        draw_text(_textb_x + 16 + _op_border, _textb_y - _op_space*option_number + _op_space*op + 2, option[op]);        
+        draw_text(_textb_x + 18 + _op_border, _textb_y - _op_space*option_number + _op_space*op + 2, option[op]);        
     }
 }
 
 
 
 //draw the text
-for(var c = 0; c< draw_char; c++){
+for(var c = 0; c < draw_char; c++){
     //text 
     draw_text(char_x[c, page], char_y[c, page], char[c, page]);
 }

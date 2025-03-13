@@ -4,8 +4,10 @@ function scr_game_text (_text_id) {
 
     switch (_text_id) {
         case "npc 1":
-            scr_text( "nigga what djhjdjhjd")
-            scr_text( "niferdd hwjh djd kjdkjd wohhhhhhhh let se ya hands")
+            scr_text( "nigga what djhjdjhjd", "blue kid")
+            scr_text( "skibnfjusljsksddjsdkdjkksdsdk nigga", "green kid", -1)
+            scr_text("ywyyeyeyeyeye", "blue kid")
+            scr_text("ok so>>", "green kid", -1)
         scr_option("maybe" , "npc 1 - ok");
         scr_option("nigha" , "npc 1 - fuk ya");
         break;
@@ -28,3 +30,4 @@ function scr_game_text (_text_id) {
     }
     
 }
+

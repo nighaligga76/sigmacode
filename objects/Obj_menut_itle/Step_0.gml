@@ -19,7 +19,7 @@ switch (pos) {
 
     case 0:
         var _fade = instance_create_layer(0, 0, "Instances", Object_fader);
-                    _fade.target_room = Room_scene_talk; // Set target room
+                    _fade.target_room = Room_3; // Set target room
                     break;
     case 1:
         menu_level = 1; break;

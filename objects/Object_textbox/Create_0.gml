@@ -7,7 +7,7 @@ line_sep = 20;
 line_width = textbox_width - border*2;  
 line_height= textbox_height - border*2;  
 
-textb_spr = Sprite_textbox_drawing;
+textb_spr[0] = Sprite_textbox_drawing;
 textb_image = 0;
 textb_image_speed = 6/60;
 
@@ -32,4 +32,4 @@ set_up = false;
 
 //effects
 scr_text_defaults_for_txt();
-last_free_space_ =0;
+last_free_space_ = 0;
